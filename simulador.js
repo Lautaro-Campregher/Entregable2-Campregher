@@ -63,7 +63,7 @@ while (seguirComprando) {
   seguirComprando = confirm("Deseas comprar otro producto");
 }
 
-let resumen = undefined;
+let resumen = "";
 
 carrito.forEach((i) => {
   resumen += `${i.cantidad} x ${i.nombre} = ${i.subtotal}`;
