@@ -10,7 +10,7 @@ let productos = [
   { nombre: "pan lactal", precio: 2800, stock: 4 },
 ];
 
-const añadirProducto = (a, b) => {
+const calcularSubTotal = (a, b) => {
   let total = a * b;
   return total;
 };
@@ -43,13 +43,13 @@ while (seguirComprando) {
         break;
       }
 
-      let subtotal = añadirProducto(producto.precio, cantidad);
+      let subtotal = calcularSubTotal(producto.precio, cantidad);
       total += subtotal;
       producto.stock = restarStock(producto.stock, cantidad);
 
       carrito.push({ nombre: producto.nombre, cantidad, subtotal });
       alert(
-        `Agregaste ${cantidad} unidades de ${producto.nombre} por el monto de ${subtotal}`
+        `Agregaste ${cantidad} unidades de ${producto.nombre} por el monto de $${subtotal}`
       );
 
       break;
@@ -64,12 +64,12 @@ while (seguirComprando) {
 }
 
 let resumen = "";
-
-carrito.forEach((i) => {
-  resumen += `${i.cantidad} x ${i.nombre} = ${i.subtotal}`;
-});
-console.log(carrito); //Colocado para verificar que los productos seleccionados se guardan en el array carrito
-console.log(productos); // Colocado para verificar si el stock resta las unidades de la compra realizada
-resumen = `Tu total a pagar: ${total}. Gracias por elegirnos`;
+for (let i = 0; i < carrito.length; i++) {
+  resumen += `${i.cantidad} x ${i.nombre} = $${i.subtotal}`;
+}
+resumen = `Tu total a pagar: $${total}. Gracias por elegirnos`;
 
 alert(resumen);
+console.log(carrito); //Colocado para verificar que los productos seleccionados se guardan en el array carrito
+console.log(productos); // Colocado para verificar si el stock resta las unidades de la compra realizada
+//Muestra el resumen de la compra por consola
