@@ -22,6 +22,11 @@ const carrito = [];
 let seguirComprando = true;
 
 while (seguirComprando) {
+  let listaProductos = productos
+    .map((p) => `- ${p.nombre}: $${p.precio}`)
+    .join("\n");
+  alert(`Lista de productos disponibles:\n\n${listaProductos}`);
+
   let productoIngresado = prompt("¿Que producto deseas comprar?");
   let existe = false;
 
@@ -65,8 +70,9 @@ while (seguirComprando) {
 
 let resumen = "";
 for (let i = 0; i < carrito.length; i++) {
-  resumen += `${i.cantidad} x ${i.nombre} = $${i.subtotal}`;
+  resumen += `\n${carrito[i].cantidad} x \n${carrito[i].nombre} = $${carrito[i].subtotal}\n`;
 }
+alert(resumen);
 resumen = `Tu total a pagar: $${total}. Gracias por elegirnos`;
 
 alert(resumen);
