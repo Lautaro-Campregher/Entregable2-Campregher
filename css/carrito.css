@@ -9,7 +9,7 @@ body {
   background-color: bisque;
 }
 
-.productos {
+.productos-carrito {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -17,7 +17,7 @@ body {
   gap: 20px;
 }
 
-.productos .producto {
+.producto {
   border: 2px solid black;
   width: 400px;
   height: 300px;
