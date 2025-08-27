@@ -9,7 +9,7 @@ const mostrarCarrito = () => {
       <div class="producto">
        <h3>${producto.nombre}</h3>
        <h4>${producto.precio}</h4>
-       <button>Quitar</button>
+       <button onclick="quitarProducto(${producto.id})">Quitar</button>
       </div>
       `;
   });
@@ -19,4 +19,18 @@ const mostrarCarrito = () => {
 
 mostrarCarrito();
 
-const quitarProducto = () => {};
+let btnLimpiar = document.getElementById("limpiar");
+btnLimpiar.addEventListener("click", () => {
+  localStorage.removeItem("lista");
+  productosEncarrito = [];
+  mostrarCarrito();
+});
+
+const quitarProducto = (id) => {
+  let carritoLimpio = productosEncarrito.filter(
+    (producto) => producto.id !== id
+  );
+  productosEncarrito = carritoLimpio;
+  localStorage.setItem("lista", JSON.stringify(productosEncarrito));
+  mostrarCarrito();
+};

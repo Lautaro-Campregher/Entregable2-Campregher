@@ -94,6 +94,8 @@ let productos = [
   },
 ];
 
+let carrito = JSON.parse(localStorage.getItem("lista")) || [];
+
 const mostrarCatalogo = () => {
   let catalogo = document.querySelector(".productos");
   let catalogoCompleto = "";
@@ -103,6 +105,7 @@ const mostrarCatalogo = () => {
       <div class="producto">
        <h3>${producto.nombre}</h3>
        <h4>${producto.precio}</h4>
+       <input type="number" placeholder="Cuantas unidades quieres agregar?" id="cantidad">
        <button onclick="agregarAlcarrito(${producto.id})">Agregar al carrito</button>
       </div>
       `;
@@ -112,8 +115,6 @@ const mostrarCatalogo = () => {
 };
 
 mostrarCatalogo();
-
-let carrito = JSON.parse(localStorage.getItem("lista")) || [];
 
 const agregarAlcarrito = (id) => {
   let productoSeleccionado = productos.find((producto) => producto.id === id);
