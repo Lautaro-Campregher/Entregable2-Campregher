@@ -96,7 +96,35 @@ let productos = [
 
 let carrito = JSON.parse(localStorage.getItem("lista")) || [];
 
-const mostrarCatalogo = () => {
+let categoria = document.getElementById("inp-filtrar");
+let botonFiltrar = document.getElementById("btn-filtrar");
+
+const filtarCategoria = () => {
+  let categoriaSeleccionada = categoria.value;
+
+  if (categoriaSeleccionada === "") {
+    mostrarCatalogo(productos);
+    return;
+  }
+
+  let filtrado = productos.filter((producto) =>
+    producto.categoria
+      .toLowerCase()
+      .includes(categoriaSeleccionada.toLowerCase())
+  );
+
+  if (filtrado.length > 0) {
+    mostrarCatalogo(filtrado);
+  } else {
+    document.querySelector(
+      ".productos"
+    ).innerHTML = `<p style="color:red; font-weight:bold">No se encontraron productos</p>`;
+  }
+};
+
+botonFiltrar.addEventListener("click", filtarCategoria);
+
+const mostrarCatalogo = (productos) => {
   let catalogo = document.querySelector(".productos");
   let catalogoCompleto = "";
 
@@ -105,6 +133,7 @@ const mostrarCatalogo = () => {
       <div class="producto">
        <h3>${producto.nombre}</h3>
        <h4>${producto.precio}</h4>
+       <p>Categoría: ${producto.categoria}</p>
        <input type="number" placeholder="Cuantas unidades quieres agregar?" id="cantidad">
        <button onclick="agregarAlcarrito(${producto.id})">Agregar al carrito</button>
       </div>
@@ -114,7 +143,7 @@ const mostrarCatalogo = () => {
   catalogo.innerHTML = catalogoCompleto;
 };
 
-mostrarCatalogo();
+mostrarCatalogo(productos);
 
 const agregarAlcarrito = (id) => {
   let productoSeleccionado = productos.find((producto) => producto.id === id);
