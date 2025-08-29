@@ -39,7 +39,7 @@ header h1 {
 }
 
 h2 {
-  text-align: left;
+  text-align: center;
   font-size: 2rem;
   color: #222;
   margin-left: 1rem;
@@ -84,6 +84,11 @@ h2 {
   padding: 10px;
 }
 
+.alerta {
+  margin-left: 2rem;
+  color: red;
+  font-size: 20px;
+}
 .productos .producto {
   display: flex;
   flex-direction: column;

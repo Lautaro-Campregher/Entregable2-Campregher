@@ -1,3 +1,4 @@
+//ARRAY con produtos de la tienda
 let productos = [
   {
     id: 1,
@@ -106,36 +107,18 @@ let productos = [
   },
 ];
 
+//Variables que recuperan elementos del DOM
 let carrito = JSON.parse(localStorage.getItem("lista")) || [];
-
 let categoria = document.getElementById("inp-filtrar");
 let botonFiltrar = document.getElementById("btn-filtrar");
 
-// Funcion que filtra los productos por categoria.
-const filtarCategoria = () => {
-  let categoriaSeleccionada = categoria.value;
-
-  if (categoriaSeleccionada === "") {
+//Funcion que borra alertas sobre eventos
+const borrarAlerta = () => {
+  setTimeout(() => {
+    alerta.textContent = ``;
     mostrarCatalogo(productos);
-    return;
-  }
-
-  let filtrado = productos.filter((producto) =>
-    producto.categoria
-      .toLowerCase()
-      .includes(categoriaSeleccionada.toLowerCase())
-  );
-
-  if (filtrado.length > 0) {
-    mostrarCatalogo(filtrado);
-  } else {
-    document.querySelector(
-      ".productos"
-    ).innerHTML = `<p style="color:red; font-weight:bold">No se encontraron productos</p>`;
-  }
+  }, 2000);
 };
-
-botonFiltrar.addEventListener("click", filtarCategoria);
 
 // Funcion que muestra el array productos como un catalogo
 const mostrarCatalogo = (productos) => {
@@ -159,10 +142,40 @@ const mostrarCatalogo = (productos) => {
 
 mostrarCatalogo(productos);
 
+// Funcion que filtra los productos por categoria.
+const filtarCategoria = () => {
+  let categoriaSeleccionada = categoria.value;
+
+  if (categoriaSeleccionada === "") {
+    mostrarCatalogo(productos);
+  }
+
+  let filtrado = productos.filter((producto) =>
+    producto.categoria
+      .toLowerCase()
+      .includes(categoriaSeleccionada.toLowerCase())
+  );
+
+  if (filtrado.length > 0) {
+    mostrarCatalogo(filtrado);
+  } else {
+    mostrarCatalogo([]);
+    alerta.textContent = `No existe tal producto o categoría`;
+    borrarAlerta();
+  }
+};
+
+botonFiltrar.addEventListener("click", filtarCategoria);
+
 // Funcion que agrega el producto al carrito
 const agregarAlcarrito = (id) => {
+  if (carrito.some((item) => item.id === id)) {
+    alerta.textContent = `Ese producto ya está en el carrito`;
+    return;
+  }
   let productoSeleccionado = productos.find((producto) => producto.id === id);
   carrito.push(productoSeleccionado);
-  alert("Producto agregado al carrito");
   localStorage.setItem("lista", JSON.stringify(carrito));
+  alerta.textContent = `Producto agregado al carrito`;
+  borrarAlerta();
 };

@@ -52,6 +52,12 @@ h2 {
   padding: 10px;
 }
 
+.alerta {
+  margin-left: 1rem;
+  color: red;
+  font-size: 20px;
+}
+
 .productos-carrito .producto {
   display: flex;
   flex-direction: column;
