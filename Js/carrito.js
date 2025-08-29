@@ -20,7 +20,7 @@ const mostrarCarrito = () => {
     carritoCompleto += `
       <div class="producto">
         <h3>${producto.nombre}</h3>
-        <img src="${producto.imagen}" alt="${producto.nombre}">
+        <img src="${producto.imagen}"alt="${producto.nombre}">
         <h4>$${producto.precio}</h4>
         <button onclick="quitarProducto(${producto.id})">Quitar</button>
       </div>

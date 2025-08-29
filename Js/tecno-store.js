@@ -2,49 +2,43 @@ let productos = [
   {
     id: 1,
     nombre: "Smartphone",
-    precio: 900.0,
+    precio: 900,
     categoria: "Electronica",
-    stock: 100,
     imagen: "assets/smartphone.avif",
   },
   {
     id: 2,
     nombre: "Tablet",
-    precio: 400.0,
+    precio: 400,
     categoria: "Electronica",
-    stock: 50,
     imagen: "assets/tablet.webp",
   },
   {
     id: 3,
     nombre: "Laptop",
-    precio: 1000000,
+    precio: 1000,
     categoria: "Electronica",
-    stock: 70,
     imagen: "assets/laptop.webp",
   },
   {
     id: 4,
     nombre: "Smartwatch",
-    precio: 70.0,
+    precio: 70,
     categoria: "Electronica",
-    stock: 30,
     imagen: "assets/smartwatch.webp",
   },
   {
     id: 5,
     nombre: "Auriculares inalámbricos",
-    precio: 25.0,
+    precio: 25,
     categoria: "Electronica",
-    stock: 150,
     imagen: "assets/auriculares.webp",
   },
   {
     id: 6,
     nombre: "Cámara digital",
-    precio: 110.0,
+    precio: 110,
     categoria: "Fotografia",
-    stock: 20,
     imagen: "assets/camaradigital.webp",
   },
   {
@@ -52,7 +46,6 @@ let productos = [
     nombre: "Impresora multifuncional",
     precio: 150,
     categoria: "Computacion",
-    stock: 40,
     imagen: "assets/impresora.webp",
   },
   {
@@ -60,7 +53,6 @@ let productos = [
     nombre: "Altavoz Bluetooth",
     precio: 50,
     categoria: "Electronica",
-    stock: 80,
     imagen: "assets/parlante.webp",
   },
   {
@@ -68,7 +60,6 @@ let productos = [
     nombre: "Reproductor de música MP3",
     precio: 30,
     categoria: "Electronica",
-    stock: 60,
     imagen: "assets/mp3.webp",
   },
   {
@@ -76,7 +67,6 @@ let productos = [
     nombre: "Videojuego para consola",
     precio: 60,
     categoria: "Videojuegos",
-    stock: 25,
     imagen: "assets/juegoPs4.webp",
   },
   {
@@ -84,7 +74,6 @@ let productos = [
     nombre: "Teclado gamer",
     precio: 80,
     categoria: "Computacion",
-    stock: 35,
     imagen: "assets/tecladomecanico.webp",
   },
   {
@@ -92,7 +81,6 @@ let productos = [
     nombre: "Monitor de pantalla plana",
     precio: 200,
     categoria: "Computacion",
-    stock: 15,
     imagen: "assets/monitor-Gamer.webp",
   },
   {
@@ -100,7 +88,6 @@ let productos = [
     nombre: "Router Wi-Fi",
     precio: 70,
     categoria: "Electronica",
-    stock: 45,
     imagen: "assets/router-wifi.webp",
   },
   {
@@ -108,15 +95,13 @@ let productos = [
     nombre: "Videocámara HD",
     precio: 300,
     categoria: "Fotografia",
-    stock: 10,
     imagen: "assets/videocamara.webp",
   },
   {
     id: 15,
     nombre: "Disco duro externo",
-    precio: 120000,
+    precio: 120,
     categoria: "Computacion",
-    stock: 50,
     imagen: "assets/disco-duro-externo.webp",
   },
 ];
@@ -126,6 +111,7 @@ let carrito = JSON.parse(localStorage.getItem("lista")) || [];
 let categoria = document.getElementById("inp-filtrar");
 let botonFiltrar = document.getElementById("btn-filtrar");
 
+// Funcion que filtra los productos por categoria.
 const filtarCategoria = () => {
   let categoriaSeleccionada = categoria.value;
 
@@ -151,6 +137,7 @@ const filtarCategoria = () => {
 
 botonFiltrar.addEventListener("click", filtarCategoria);
 
+// Funcion que muestra el array productos como un catalogo
 const mostrarCatalogo = (productos) => {
   let catalogo = document.querySelector(".productos");
   let catalogoCompleto = "";
@@ -159,7 +146,7 @@ const mostrarCatalogo = (productos) => {
     catalogoCompleto += `
       <div class="producto">
        <h3>${producto.nombre}</h3>
-       <img src="${producto.imagen}">
+       <img src="${producto.imagen}"alt="${producto.nombre}" >
        <h4>$${producto.precio}</h4>
        <p>Categoría: ${producto.categoria}</p>
        <button onclick="agregarAlcarrito(${producto.id})">Agregar al carrito</button>
@@ -172,6 +159,7 @@ const mostrarCatalogo = (productos) => {
 
 mostrarCatalogo(productos);
 
+// Funcion que agrega el producto al carrito
 const agregarAlcarrito = (id) => {
   let productoSeleccionado = productos.find((producto) => producto.id === id);
   carrito.push(productoSeleccionado);

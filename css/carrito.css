@@ -5,24 +5,53 @@
 }
 
 body {
-  font-family: arial, sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background-color: gray;
 }
 
-h1 {
+header h1 {
   text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 2rem 0 1.5rem 0;
+  color: #111;
 }
+
+.navbar {
+  background: #000;
+  padding: 1rem 2rem;
+  margin-bottom: 3rem;
+}
+
+.navbar-brand,
+.nav-link {
+  color: black;
+  font-size: 1.5rem !important;
+  padding: 0.7rem 1.2rem;
+  font-weight: 100px;
+  transition: 0.3s;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  color: grey;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
 .productos-carrito {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px; /* espacio entre tarjetas */
+  gap: 3rem;
   width: 90%;
   max-width: 1200px;
   margin: 20px auto;
   padding: 10px;
 }
 
-/* Tarjeta individual de producto */
 .productos-carrito .producto {
   display: flex;
   flex-direction: column;
@@ -40,13 +69,11 @@ h4 {
   text-align: center;
 }
 
-/* Efecto hover */
 .productos-carrito .producto:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Imagen del producto */
 .productos-carrito .producto img {
   width: 100%;
   height: auto;
@@ -54,7 +81,6 @@ h4 {
   border-bottom: 1px solid #ddd;
 }
 
-/* Botón de acción */
 .productos-carrito .producto button,
 #limpiar {
   margin: 10px 15px 15px;
@@ -70,4 +96,13 @@ h4 {
 
 .productos-carrito .producto button:hover {
   background-color: #333;
+}
+
+.contenedor-total,
+h5,
+#total {
+  text-align: left;
+  font-size: 30px !important;
+  margin-left: 1rem !important;
+  margin-bottom: 2rem !important;
 }
