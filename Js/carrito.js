@@ -1,48 +1,51 @@
 let productosEncarrito = JSON.parse(localStorage.getItem("lista")) || [];
 
-const mostrarCarrito = () => {
-  let contenedor = document.querySelector(".productos-carrito");
-  let carritoCompleto = "";
+let totalElemento = document.getElementById("total");
+let contenedor = document.querySelector(".productos-carrito");
+let btnLimpiar = document.getElementById("limpiar");
 
+// Función para calcular la suma total
+const sumaCarrito = () => {
+  let suma = 0;
+  productosEncarrito.forEach((producto) => {
+    suma += producto.precio;
+  });
+  totalElemento.innerText = `$${suma}`;
+};
+
+// Función para mostrar productos en el carrito
+const mostrarCarrito = () => {
+  let carritoCompleto = "";
   productosEncarrito.forEach((producto) => {
     carritoCompleto += `
       <div class="producto">
-       <h3>${producto.nombre}</h3>
-       <img src="${producto.imagen}">
-       <h4>$${producto.precio}</h4>
-       <button onclick="quitarProducto(${producto.id})">Quitar</button>
+        <h3>${producto.nombre}</h3>
+        <img src="${producto.imagen}" alt="${producto.nombre}">
+        <h4>$${producto.precio}</h4>
+        <button onclick="quitarProducto(${producto.id})">Quitar</button>
       </div>
-      `;
+    `;
   });
 
   contenedor.innerHTML = carritoCompleto;
+  sumaCarrito();
 };
 
-mostrarCarrito();
-
-let btnLimpiar = document.getElementById("limpiar");
-btnLimpiar.addEventListener("click", () => {
-  alert("Quieres vaciar el carrito");
-  localStorage.removeItem("lista");
-  productosEncarrito = [];
-  mostrarCarrito();
-});
-
+// Función para quitar un producto del carrito
 const quitarProducto = (id) => {
-  let carritoLimpio = productosEncarrito.filter(
+  productosEncarrito = productosEncarrito.filter(
     (producto) => producto.id !== id
   );
-  alert("Vas a borrar este producto del carrito");
-  productosEncarrito = carritoLimpio;
   localStorage.setItem("lista", JSON.stringify(productosEncarrito));
   mostrarCarrito();
 };
 
-let total = document.getElementById("total");
-const sumaCarrito = () => {
-  let total = productosEncarrito.reduce((acumulador, producto) => {
-    return acumulador + producto.precio;
-  }, 0);
+// Botón para limpiar carrito completo
+btnLimpiar.addEventListener("click", () => {
+  productosEncarrito = [];
+  localStorage.removeItem("lista");
+  mostrarCarrito();
+});
 
-  total.innerText = `$${total}`;
-};
+// Mostrar carrito al cargar la página
+mostrarCarrito();
