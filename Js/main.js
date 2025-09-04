@@ -112,14 +112,6 @@ let carrito = JSON.parse(localStorage.getItem("lista")) || [];
 let categoria = document.getElementById("inp-filtrar");
 let botonFiltrar = document.getElementById("btn-filtrar");
 
-//Funcion que borra alertas sobre eventos
-const borrarAlerta = () => {
-  setTimeout(() => {
-    alerta.textContent = ``;
-    mostrarCatalogo(productos);
-  }, 2000);
-};
-
 // Funcion que muestra el array productos como un catalogo
 const mostrarCatalogo = (productos) => {
   let catalogo = document.querySelector(".productos");
@@ -160,8 +152,12 @@ const filtarCategoria = () => {
     mostrarCatalogo(filtrado);
   } else {
     mostrarCatalogo([]);
-    alerta.textContent = `No existe tal producto o categoría`;
-    borrarAlerta();
+    Swal.fire({
+      title: "Error!",
+      text: "No existe tal categoria. Intenta con otra",
+      icon: "error",
+      confirmButtonText: "Continuar",
+    });
   }
 };
 
@@ -170,12 +166,19 @@ botonFiltrar.addEventListener("click", filtarCategoria);
 // Funcion que agrega el producto al carrito
 const agregarAlcarrito = (id) => {
   if (carrito.some((item) => item.id === id)) {
-    alerta.textContent = `Ese producto ya está en el carrito`;
+    Swal.fire({
+      title: "Error!",
+      text: "Este producto ya esta en el carrito.",
+      icon: "error",
+    });
     return;
   }
   let productoSeleccionado = productos.find((producto) => producto.id === id);
   carrito.push(productoSeleccionado);
   localStorage.setItem("lista", JSON.stringify(carrito));
-  alerta.textContent = `Producto agregado al carrito`;
-  borrarAlerta();
+  Swal.fire({
+    title: `${productoSeleccionado.nombre}\n Agregado al carrito con exito!`,
+    position: "top-end",
+    icon: "success",
+  });
 };
