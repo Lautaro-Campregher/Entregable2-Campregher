@@ -7,13 +7,6 @@ let contenedor = document.querySelector(".productos-carrito");
 let btnLimpiar = document.getElementById("limpiar");
 let alerta = document.querySelector(".alerta");
 
-//Funcion que borra alertas sobre eventos
-const borrarAlerta = () => {
-  setTimeout(() => {
-    alerta.textContent = ``;
-    mostrarCarrito(productosEncarrito);
-  }, 2000);
-};
 // Función para calcular la suma total
 const sumaCarrito = () => {
   let suma = 0;
@@ -41,6 +34,7 @@ const mostrarCarrito = () => {
   sumaCarrito();
 };
 alerta.textContent = "";
+
 // Función para quitar un producto del carrito
 const quitarProducto = (id) => {
   productosEncarrito = productosEncarrito.filter(
@@ -61,6 +55,7 @@ const quitarProducto = (id) => {
         text: "El producto fue eliminado con exito",
         icon: "success",
         position: "top-end",
+        showConfirmButton: false,
       });
       mostrarCarrito();
     }

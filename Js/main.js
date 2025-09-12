@@ -1,116 +1,29 @@
 //ARRAY con produtos de la tienda
-let productos = [
-  {
-    id: 1,
-    nombre: "Smartphone",
-    precio: 900,
-    categoria: "Electronica",
-    imagen: "assets/smartphone.avif",
-  },
-  {
-    id: 2,
-    nombre: "Tablet",
-    precio: 400,
-    categoria: "Electronica",
-    imagen: "assets/tablet.webp",
-  },
-  {
-    id: 3,
-    nombre: "Laptop",
-    precio: 1000,
-    categoria: "Electronica",
-    imagen: "assets/laptop.webp",
-  },
-  {
-    id: 4,
-    nombre: "Smartwatch",
-    precio: 70,
-    categoria: "Electronica",
-    imagen: "assets/smartwatch.webp",
-  },
-  {
-    id: 5,
-    nombre: "Auriculares inalámbricos",
-    precio: 25,
-    categoria: "Electronica",
-    imagen: "assets/auriculares.webp",
-  },
-  {
-    id: 6,
-    nombre: "Cámara digital",
-    precio: 110,
-    categoria: "Fotografia",
-    imagen: "assets/camaradigital.webp",
-  },
-  {
-    id: 7,
-    nombre: "Impresora multifuncional",
-    precio: 150,
-    categoria: "Computacion",
-    imagen: "assets/impresora.webp",
-  },
-  {
-    id: 8,
-    nombre: "Altavoz Bluetooth",
-    precio: 50,
-    categoria: "Electronica",
-    imagen: "assets/parlante.webp",
-  },
-  {
-    id: 9,
-    nombre: "Reproductor de música MP3",
-    precio: 30,
-    categoria: "Electronica",
-    imagen: "assets/mp3.webp",
-  },
-  {
-    id: 10,
-    nombre: "Videojuego para consola",
-    precio: 60,
-    categoria: "Videojuegos",
-    imagen: "assets/juegoPs4.webp",
-  },
-  {
-    id: 11,
-    nombre: "Teclado gamer",
-    precio: 80,
-    categoria: "Computacion",
-    imagen: "assets/tecladomecanico.webp",
-  },
-  {
-    id: 12,
-    nombre: "Monitor de pantalla plana",
-    precio: 200,
-    categoria: "Computacion",
-    imagen: "assets/monitor-Gamer.webp",
-  },
-  {
-    id: 13,
-    nombre: "Router Wi-Fi",
-    precio: 70,
-    categoria: "Electronica",
-    imagen: "assets/router-wifi.webp",
-  },
-  {
-    id: 14,
-    nombre: "Videocámara HD",
-    precio: 300,
-    categoria: "Fotografia",
-    imagen: "assets/videocamara.webp",
-  },
-  {
-    id: 15,
-    nombre: "Disco duro externo",
-    precio: 120,
-    categoria: "Computacion",
-    imagen: "assets/disco-duro-externo.webp",
-  },
-];
+let productos = [];
 
 //Variables que recuperan elementos del DOM
-let carrito = JSON.parse(localStorage.getItem("lista")) || [];
-let categoria = document.getElementById("inp-filtrar");
-let botonFiltrar = document.getElementById("btn-filtrar");
+let carrito = JSON.parse(localStorage.getItem("lista")) || []; // Recupera el carrito de localStorage
+let categoria = document.getElementById("inp-filtrar"); // Recupera el input de filtrar
+let botonFiltrar = document.getElementById("btn-filtrar"); // Recupera el boton de filtrar
+
+const sweetAlert = (title, text, icon, button, time) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: icon,
+    showConfirmButton: button,
+    timer: time,
+  });
+};
+
+const toastNotification = (text, duration, gravity, position) => {
+  Toastify({
+    text: text,
+    duration: duration,
+    gravity: gravity,
+    position: position,
+  }).showToast();
+};
 
 // Funcion que muestra el array productos como un catalogo
 const mostrarCatalogo = (productos) => {
@@ -129,10 +42,10 @@ const mostrarCatalogo = (productos) => {
       `;
   });
 
-  catalogo.innerHTML = catalogoCompleto;
+  catalogo.innerHTML = catalogoCompleto; // Muestra el catalogo completo
 };
 
-mostrarCatalogo(productos);
+mostrarCatalogo(productos); // Muestra el catalogo completo
 
 // Funcion que filtra los productos por categoria.
 const filtarCategoria = () => {
@@ -152,12 +65,7 @@ const filtarCategoria = () => {
     mostrarCatalogo(filtrado);
   } else {
     mostrarCatalogo([]);
-    Swal.fire({
-      title: "Error!",
-      text: "No existe tal categoria. Intenta con otra",
-      icon: "error",
-      confirmButtonText: "Continuar",
-    });
+    sweetAlert("Error!", "No existe tal categoria", "error", false, 1500);
   }
 };
 
@@ -165,20 +73,40 @@ botonFiltrar.addEventListener("click", filtarCategoria);
 
 // Funcion que agrega el producto al carrito
 const agregarAlcarrito = (id) => {
-  if (carrito.some((item) => item.id === id)) {
+  try {
+    if (carrito.some((item) => item.id === id)) {
+      Swal.fire({
+        title: "",
+        text: "Este producto ya esta en el carrito.",
+        icon: "error",
+      });
+      return;
+    }
+    let productoSeleccionado = productos.find((producto) => producto.id === id);
+    carrito.push(productoSeleccionado);
+    localStorage.setItem("lista", JSON.stringify(carrito));
+    toastNotification(
+      `${productoSeleccionado.nombre}\nAgregado al carrito`,
+      2000,
+      "top",
+      "right"
+    );
+  } catch (error) {
     Swal.fire({
       title: "Error!",
-      text: "Este producto ya esta en el carrito.",
+      text: error.message || "Ocurrio un error al agregar el producto.",
       icon: "error",
     });
-    return;
   }
-  let productoSeleccionado = productos.find((producto) => producto.id === id);
-  carrito.push(productoSeleccionado);
-  localStorage.setItem("lista", JSON.stringify(carrito));
-  Swal.fire({
-    title: `${productoSeleccionado.nombre}\n Agregado al carrito con exito!`,
-    position: "top-end",
-    icon: "success",
-  });
 };
+
+axios
+  .get("./data/data.json")
+  .then((response) => {
+    productos = response.data;
+    mostrarCatalogo(productos);
+  })
+  .catch((error) => {
+    sweetAlert("Error!", "Nose pudo cargar el catalogo", "error", false, 2000);
+    console.error(error);
+  });
