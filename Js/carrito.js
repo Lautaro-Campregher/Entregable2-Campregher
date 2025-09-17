@@ -6,6 +6,7 @@ let totalElemento = document.getElementById("total");
 let contenedor = document.querySelector(".productos-carrito");
 let btnLimpiar = document.getElementById("limpiar");
 let alerta = document.querySelector(".alerta");
+let confirmar = document.getElementById("confirmar");
 
 // Función para calcular la suma total
 const sumaCarrito = () => {
@@ -36,32 +37,32 @@ const mostrarCarrito = () => {
 alerta.textContent = "";
 
 // Función para quitar un producto del carrito
+// Renderizaría esta función mostrando primero el modal de confirmación, y solo si el usuario confirma, eliminaría el producto del array, actualizaría el localStorage y luego renderizaría el carrito nuevamente. Así se evita eliminar el producto antes de la confirmación. Ejemplo:
+
 const quitarProducto = (id) => {
-  productosEncarrito = productosEncarrito.filter(
-    (producto) => producto.id !== id
-  );
   Swal.fire({
     title: "¿Quieres eliminar el producto?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Si,eliminar.",
+    confirmButtonText: "Sí, eliminar.",
   }).then((result) => {
     if (result.isConfirmed) {
+      productosEncarrito = productosEncarrito.filter(
+        (producto) => producto.id !== id
+      );
       localStorage.setItem("lista", JSON.stringify(productosEncarrito));
-      Swal.fire({
-        title: "Eliminado",
-        text: "El producto fue eliminado con exito",
-        icon: "success",
-        position: "top-end",
-        showConfirmButton: false,
-      });
+      Toastify({
+        text: "Producto eliminado",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+      }).showToast();
+
       mostrarCarrito();
     }
   });
-  //alerta.textContent = `Producto eliminado`;
-  //borrarAlerta();
 };
 
 // Botón para limpiar carrito completo
@@ -78,13 +79,40 @@ btnLimpiar.addEventListener("click", () => {
   }).then((result) => {
     if (result.isConfirmed) {
       localStorage.setItem("lista", JSON.stringify(productosEncarrito));
-      Swal.fire({
-        title: "Hecho",
-        text: "El carrito fue vaciado con exito",
-        icon: "success",
-        position: "top-end",
-      });
+      Toastify({
+        text: "Carrito vaciado",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+      }).showToast();
+
       mostrarCarrito();
+    }
+  });
+});
+
+confirmar.addEventListener("click", () => {
+  Swal.fire({
+    text: "¿Quieres confirmar la compra?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, confirmar.",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      productosEncarrito = [];
+      localStorage.removeItem("lista");
+      mostrarCarrito();
+
+      Swal.fire({
+        title: "Compra confirmada",
+        text: "Pedido procesado con exito. Gracias por confiar en nosotros",
+        icon: "success",
+        timer: 3000,
+        showConfirmButton: false,
+      });
     }
   });
 });

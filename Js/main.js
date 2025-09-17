@@ -1,29 +1,10 @@
-//ARRAY con produtos de la tienda
+//ARRAY con productos de la tienda
 let productos = [];
 
 //Variables que recuperan elementos del DOM
 let carrito = JSON.parse(localStorage.getItem("lista")) || []; // Recupera el carrito de localStorage
 let categoria = document.getElementById("inp-filtrar"); // Recupera el input de filtrar
 let botonFiltrar = document.getElementById("btn-filtrar"); // Recupera el boton de filtrar
-
-const sweetAlert = (title, text, icon, button, time) => {
-  Swal.fire({
-    title: title,
-    text: text,
-    icon: icon,
-    showConfirmButton: button,
-    timer: time,
-  });
-};
-
-const toastNotification = (text, duration, gravity, position) => {
-  Toastify({
-    text: text,
-    duration: duration,
-    gravity: gravity,
-    position: position,
-  }).showToast();
-};
 
 // Funcion que muestra el array productos como un catalogo
 const mostrarCatalogo = (productos) => {
@@ -65,7 +46,12 @@ const filtarCategoria = () => {
     mostrarCatalogo(filtrado);
   } else {
     mostrarCatalogo([]);
-    sweetAlert("Error!", "No existe tal categoria", "error", false, 1500);
+    Swal.fire({
+      text: "No existe tal categoria. Intenta nuevamente",
+      icon: "info",
+      timer: 3000,
+      showConfirmButton: false,
+    });
   }
 };
 
@@ -73,40 +59,40 @@ botonFiltrar.addEventListener("click", filtarCategoria);
 
 // Funcion que agrega el producto al carrito
 const agregarAlcarrito = (id) => {
+  if (carrito.some((item) => item.id === id)) {
+    Swal.fire({
+      title: "Error",
+      text: "El producto ya existe en el carrito",
+      icon: "error",
+      timer: 2000,
+    });
+    return;
+  }
+  let productoSeleccionado = productos.find((producto) => producto.id === id);
+  carrito.push(productoSeleccionado);
+  localStorage.setItem("lista", JSON.stringify(carrito));
+  Toastify({
+    text: `${productoSeleccionado.nombre}\n Agregado al carrito`,
+    duration: 3000,
+    gravitty: "top",
+    position: "right",
+  }).showToast();
+};
+
+// Cargar productos desde el archivo JSON
+const cargarProductos = async () => {
   try {
-    if (carrito.some((item) => item.id === id)) {
-      Swal.fire({
-        title: "",
-        text: "Este producto ya esta en el carrito.",
-        icon: "error",
-      });
-      return;
-    }
-    let productoSeleccionado = productos.find((producto) => producto.id === id);
-    carrito.push(productoSeleccionado);
-    localStorage.setItem("lista", JSON.stringify(carrito));
-    toastNotification(
-      `${productoSeleccionado.nombre}\nAgregado al carrito`,
-      2000,
-      "top",
-      "right"
-    );
+    const response = await axios.get("./data/data.json");
+    productos = response.data;
+    mostrarCatalogo(productos);
   } catch (error) {
     Swal.fire({
       title: "Error!",
-      text: error.message || "Ocurrio un error al agregar el producto.",
+      text: "No se pudo cargar el catálogo",
       icon: "error",
+      showButton: false,
+      timer: 2000,
     });
   }
 };
-
-axios
-  .get("./data/data.json")
-  .then((response) => {
-    productos = response.data;
-    mostrarCatalogo(productos);
-  })
-  .catch((error) => {
-    sweetAlert("Error!", "Nose pudo cargar el catalogo", "error", false, 2000);
-    console.error(error);
-  });
+cargarProductos();
