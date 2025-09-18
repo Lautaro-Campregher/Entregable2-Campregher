@@ -18,7 +18,7 @@ const mostrarCatalogo = (productos) => {
        <img src="${producto.imagen}"alt="${producto.nombre}" >
        <h4>$${producto.precio}</h4>
        <p>Categoría: ${producto.categoria}</p>
-       <button onclick="agregarAlcarrito(${producto.id})">Agregar al carrito</button>
+       <button onclick="agregarAlCarrito(${producto.id})">Agregar al carrito</button>
       </div>
       `;
   });
@@ -58,7 +58,7 @@ const filtarCategoria = () => {
 botonFiltrar.addEventListener("click", filtarCategoria);
 
 // Funcion que agrega el producto al carrito
-const agregarAlcarrito = (id) => {
+const agregarAlCarrito = (id) => {
   if (carrito.some((item) => item.id === id)) {
     Swal.fire({
       title: "Error",
