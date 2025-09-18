@@ -15,6 +15,7 @@ const sumaCarrito = () => {
     suma += producto.precio;
   });
   totalElemento.innerText = `$${suma}`;
+  return suma;
 };
 
 // Función para mostrar productos en el carrito
@@ -34,7 +35,6 @@ const mostrarCarrito = () => {
   contenedor.innerHTML = carritoCompleto;
   sumaCarrito();
 };
-alerta.textContent = "";
 
 // Función para quitar un producto del carrito
 // Renderizaría esta función mostrando primero el modal de confirmación, y solo si el usuario confirma, eliminaría el producto del array, actualizaría el localStorage y luego renderizaría el carrito nuevamente. Así se evita eliminar el producto antes de la confirmación. Ejemplo:
@@ -67,8 +67,6 @@ const quitarProducto = (id) => {
 
 // Botón para limpiar carrito completo
 btnLimpiar.addEventListener("click", () => {
-  productosEncarrito = [];
-  localStorage.removeItem("lista");
   Swal.fire({
     title: "¿Quieres vaciar el carrito?",
     icon: "warning",
@@ -78,7 +76,8 @@ btnLimpiar.addEventListener("click", () => {
     confirmButtonText: "Si, vaciar carrito.",
   }).then((result) => {
     if (result.isConfirmed) {
-      localStorage.setItem("lista", JSON.stringify(productosEncarrito));
+      productosEncarrito = [];
+      localStorage.removeItem("lista");
       Toastify({
         text: "Carrito vaciado",
         duration: 3000,
@@ -92,6 +91,15 @@ btnLimpiar.addEventListener("click", () => {
 });
 
 confirmar.addEventListener("click", () => {
+  if (sumaCarrito() === 0) {
+    Swal.fire({
+      title: "Error",
+      text: "No existen productos en el carrito",
+      icon: "error",
+      timer: 3000,
+    });
+    return;
+  }
   Swal.fire({
     text: "¿Quieres confirmar la compra?",
     icon: "question",

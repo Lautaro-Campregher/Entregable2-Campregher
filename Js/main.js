@@ -74,7 +74,7 @@ const agregarAlcarrito = (id) => {
   Toastify({
     text: `${productoSeleccionado.nombre}\n Agregado al carrito`,
     duration: 3000,
-    gravitty: "top",
+    gravity: "top",
     position: "right",
   }).showToast();
 };
@@ -90,7 +90,7 @@ const cargarProductos = async () => {
       title: "Error!",
       text: "No se pudo cargar el catálogo",
       icon: "error",
-      showButton: false,
+      showConfirmButton: false,
       timer: 2000,
     });
   }

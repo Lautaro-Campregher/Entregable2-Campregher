@@ -6,7 +6,7 @@
 
 body {
   font-family: "Segoe UI", sans-serif;
-  background-color: #3d3f46 !important;
+  background-color: #5f5e5b !important;
   color: #333;
 }
 
@@ -15,7 +15,7 @@ header h1 {
   font-size: 3rem;
   font-weight: bold;
   margin: 2rem 0 1.5rem 0;
-  color: #faf1f1;
+  color: #000;
 }
 
 .navbar {
@@ -35,20 +35,20 @@ header h1 {
 
 .navbar-brand:hover,
 .nav-link:hover {
-  color: grey;
+  color: grey !important;
 }
 
 h2 {
   text-align: center;
   font-size: 2rem;
-  color: #faf1f1 !important;
+  color: #000 !important;
   margin-left: 1rem;
 }
 
 #inp-filtrar {
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 2px solid #000;
   width: 250px;
   outline: none;
   transition: 0.3s;
@@ -56,7 +56,7 @@ h2 {
 }
 
 #inp-filtrar:focus {
-  border-color: #000;
+  border-color: #333;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -84,16 +84,11 @@ h2 {
   padding: 10px;
 }
 
-.alerta {
-  margin-left: 2rem;
-  color: red;
-  font-size: 20px;
-}
 .productos .producto {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #ddd;
+  border: 2px solid #ddd;
   border-radius: 12px;
   background-color: #fff;
   overflow: hidden;
@@ -110,6 +105,7 @@ p {
 .productos .producto:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  border-color: #000;
 }
 
 .productos .producto img {
@@ -120,7 +116,7 @@ p {
 }
 
 input {
-  border: 2px solid black;
+  border: 2px solid #333;
   border-radius: 6px;
 }
 
