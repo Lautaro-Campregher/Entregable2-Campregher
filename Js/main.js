@@ -82,7 +82,7 @@ const agregarAlCarrito = (id) => {
 // Cargar productos desde el archivo JSON
 const cargarProductos = async () => {
   try {
-    const response = await axios.get("./data/data.json");
+    const response = await axios.get("./public/data.json");
     productos = response.data;
     mostrarCatalogo(productos);
   } catch (error) {
